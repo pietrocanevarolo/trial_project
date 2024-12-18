@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Box, Typography, Container } from '@mui/material';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,16 +12,37 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Login</button>
-    </div>
+    <Container maxWidth="xs">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Login
+        </Typography>
+        <TextField
+          label="Enter your email"
+          variant="outlined"
+          fullWidth
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          sx={{ marginBottom: 2 }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Login
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

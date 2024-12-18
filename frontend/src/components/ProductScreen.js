@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Container, Grid, InputAdornment, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const ProductScreen = () => {
   const [products, setProducts] = useState([]);
@@ -44,49 +46,68 @@ const ProductScreen = () => {
   };
 
   return (
-    <div>
-      <div>
-        <span>Welcome, {user || 'Guest'}</span>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-      <input
-        type="text"
-        placeholder="Search products"
+    <Container maxWidth="lg">
+      <Grid container spacing={3} alignItems="center" justifyContent="space-between">
+        <Grid item xs={12} sm={8}>
+          <Typography variant="h4">Welcome, {user || 'Guest'}</Typography>
+        </Grid>
+        <Grid item xs={12} sm={4} container justifyContent="flex-end">
+          <Button variant="contained" color="secondary" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Grid>
+      </Grid>
+      <TextField
+        fullWidth
+        label="Search products"
+        variant="outlined"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        sx={{ marginTop: 3 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.description}</td>
-              <td>{product.price}</td>
-              <td>{product.stock}</td>
-              <td>
-                <button
-                  onClick={() => handleSelect(product.id)}
-                  disabled={product.selected}
-                >
-                  {product.selected ? 'Selected' : 'Select'}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <TableContainer sx={{ marginTop: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Stock</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell>{product.id}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.description}</TableCell>
+                <TableCell>{product.price}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color={product.selected ? 'default' : 'primary'}
+                    onClick={() => handleSelect(product.id)}
+                    disabled={product.selected}
+                  >
+                    {product.selected ? 'Selected' : 'Select'}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 
