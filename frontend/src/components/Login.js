@@ -4,6 +4,7 @@ import { TextField, Button, Box, Typography, Container } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
   
@@ -13,7 +14,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
   
       if (response.ok) {
@@ -40,11 +41,11 @@ const Login = () => {
           Login
         </Typography>
         <TextField
-          label="Enter your email"
+          label="Enter your username"
           variant="outlined"
           fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           sx={{ marginBottom: 2 }}
         />
         <TextField
