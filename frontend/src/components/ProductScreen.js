@@ -41,9 +41,10 @@ const ProductScreen = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.clear();
-    navigate('/');
+    localStorage.removeItem('token');
+    window.location.href = '/';
   };
+  
 
   return (
     <Container maxWidth="lg">
