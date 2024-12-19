@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const ProductScreen = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-  const [user] = useState(JSON.parse(sessionStorage.getItem('user')) || { username: "", name: "", email: "" });
+  const [user] = useState(JSON.parse(localStorage.getItem('user')) || { username: "", name: "", email: "" });
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -42,6 +42,7 @@ const ProductScreen = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     window.location.href = '/';
   };
   

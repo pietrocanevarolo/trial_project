@@ -23,9 +23,9 @@ const Login = () => {
           // Salva il token
           localStorage.setItem('token', data.access);
       
-          // Salva l'utente nei sessionStorage
+          // Salva l'utente nei localStorage
           const user = data.user || { username: "", name: "", email:"" };
-          sessionStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(user));
       
           // Naviga alla pagina dei prodotti
           navigate('/products');
