@@ -9,22 +9,30 @@ const Login = () => {
     const navigate = useNavigate();
   
     const handleLogin = async () => {
-      const response = await fetch('http://localhost:8000/api/login/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.access);
-        navigate('/products');
-      } else {
-        alert('Invalid credentials');
-      }
-    };
+        const response = await fetch('http://localhost:8000/api/login/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+      
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Salva il token
+          localStorage.setItem('token', data.access);
+      
+          // Salva l'utente nei sessionStorage
+          const user = data.user || { username: "", name: "", email:"" };
+          sessionStorage.setItem('user', JSON.stringify(user));
+      
+          // Naviga alla pagina dei prodotti
+          navigate('/products');
+        } else {
+          alert('Invalid credentials');
+        }
+      };
 
   return (
     <Container maxWidth="xs">

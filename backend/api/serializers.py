@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import Product
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import get_user_model
+from rest_framework.exceptions import AuthenticationFailed
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +20,27 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+    
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        try:
+            user = get_user_model().objects.get(username=username)
+            if not user.check_password(password):
+                raise AuthenticationFailed("Invalid credentials")
+        except get_user_model().DoesNotExist:
+            raise AuthenticationFailed("Invalid credentials")
+
+        # Ottenere il token
+        token = super().validate(attrs)
+
+        # Aggiungere informazioni sull'utente (per esempio, username)
+        token['user'] = {
+            'username': user.username,
+            'email':user.email,
+            'name': user.get_full_name(),
+        }
+
+        return token

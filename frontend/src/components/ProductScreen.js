@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const ProductScreen = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-  const [user] = useState(sessionStorage.getItem('user'));
+  const [user] = useState(JSON.parse(sessionStorage.getItem('user')) || { username: "", name: "", email: "" });
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -50,7 +50,7 @@ const ProductScreen = () => {
     <Container maxWidth="lg">
       <Grid container spacing={3} alignItems="center" justifyContent="space-between">
         <Grid item xs={12} sm={8}>
-          <Typography variant="h4">Welcome, {user || 'Guest'}</Typography>
+          <Typography variant="h4">Welcome, {user?.email || 'Guest'}</Typography>
         </Grid>
         <Grid item xs={12} sm={4} container justifyContent="flex-end">
           <Button variant="contained" color="secondary" onClick={handleLogout}>
