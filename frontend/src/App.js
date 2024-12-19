@@ -1,5 +1,5 @@
-import React, { useEffect }  from 'react';
-import { BrowserRouter as Router, Routes, Route ,useNavigate} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom'; // Remove BrowserRouter import
 import Login from './components/Login';
 import ProductScreen from './components/ProductScreen';
 
@@ -12,13 +12,12 @@ function App() {
       navigate('/');
     }
   }, [navigate]);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/products" element={<ProductScreen />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/products" element={<ProductScreen />} />
+    </Routes>
   );
 }
 
