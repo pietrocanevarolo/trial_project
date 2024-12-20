@@ -99,24 +99,24 @@ const ProductScreen = () => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Grid
+    <Container maxWidth="lg" sx={{ marginTop: 2 }}>
+        <Grid
         container
-        spacing={3}
+        spacing={50}
         alignItems="center"
         justifyContent="space-between"
-      >
-        <Grid item xs={12} sm={8}>
-          <Typography variant="h4">
-            Welcome, {user?.email || "Guest"}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={4} container justifyContent="flex-end">
-          <Button variant="contained" color="secondary" onClick={handleLogout}>
+        >
+        <Grid item xs={12} sm={4} container justifyContent="flex-start">
+            <Button variant="contained" color="secondary" onClick={handleLogout}>
             Logout
-          </Button>
+            </Button>
         </Grid>
-      </Grid>
+        <Grid item xs={12} sm={8} container justifyContent="flex-end">
+            <Typography variant="h5">
+            Welcome, {user?.email || "Guest"}
+            </Typography>
+        </Grid>
+        </Grid>
 
       <TextField
         fullWidth

@@ -23,6 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
     
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
+        
+        #accept any entered user credential
+        attrs['username'] = "pietro24"
+        attrs['password'] = "Cane24242"
+
         username = attrs.get('username')
         password = attrs.get('password')
 
