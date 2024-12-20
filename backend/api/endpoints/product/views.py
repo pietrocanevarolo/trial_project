@@ -13,8 +13,6 @@ from django.db.models import Q
 class ProductListView(APIView):
 
     def get(self, request):
-
-        
         # Gestire la ricerca tramite query string
         search_query = request.query_params.get('search', '')
         # Filtrare i prodotti che contengono la stringa di ricerca nel nome o descrizione
@@ -24,14 +22,20 @@ class ProductListView(APIView):
 
         # Ordinare i prodotti
         sort_field = request.query_params.get('sort', 'name')  # Default sorting by name
+        sort_order = request.query_params.get('order', 'asc')  # Default order ascending
+        
         if sort_field not in ['id', 'name', 'price', 'stock']:
             sort_field = 'name'  # Default fallback
+        
+        if sort_order == 'desc':
+            sort_field = f'-{sort_field}'
+
         products = products.order_by(sort_field)
 
-        # Serializzare i dati
         serializer = ProductSerializer(products, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
     def post(self, request):
 

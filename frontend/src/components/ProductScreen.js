@@ -134,20 +134,6 @@ const ProductScreen = () => {
         }}
       />
 
-      <FormControl sx={{ marginTop: 3, width: 200 }}>
-        <InputLabel>Sort By</InputLabel>
-        <Select
-          value={sortField}
-          onChange={(e) => handleSortChange(e.target.value)}
-          label="Sort By"
-        >
-          <MenuItem value="name">Name</MenuItem>
-          <MenuItem value="price">Price</MenuItem>
-          <MenuItem value="stock">Stock</MenuItem>
-          <MenuItem value="id">ID</MenuItem>
-        </Select>
-      </FormControl>
-
       <TableContainer sx={{ marginTop: 3 }}>
         <Table>
           <TableHead>
