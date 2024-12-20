@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
     
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        
+
         #accept any entered user credential
         attrs['username'] = "pietro24"
         attrs['password'] = "Cane24242"
@@ -39,10 +39,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         except get_user_model().DoesNotExist:
             raise AuthenticationFailed("Invalid credentials")
 
-        # Ottenere il token
+        # Get the token
         token = super().validate(attrs)
 
-        # Aggiungere informazioni sull'utente (per esempio, username)
+       
         token['user'] = {
             'username': user.username,
             'email':user.email,

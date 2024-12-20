@@ -39,7 +39,7 @@ const ProductScreen = () => {
 
   const fetchProducts = async () => {
     if (search.trim() === "") {
-      setProducts([]); // Se la barra di ricerca è vuota, non mostrare risultati
+      setProducts([]); // If the search bar is empty, do not show results
       return;
     }
 
@@ -100,23 +100,23 @@ const ProductScreen = () => {
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: 2 }}>
-        <Grid
+      <Grid
         container
         spacing={50}
         alignItems="center"
         justifyContent="space-between"
-        >
+      >
         <Grid item xs={12} sm={4} container justifyContent="flex-start">
-            <Button variant="contained" color="secondary" onClick={handleLogout}>
+          <Button variant="contained" color="secondary" onClick={handleLogout}>
             Logout
-            </Button>
+          </Button>
         </Grid>
         <Grid item xs={12} sm={8} container justifyContent="flex-end">
-            <Typography variant="h5">
+          <Typography variant="h5">
             Welcome, {user?.email || "Guest"}
-            </Typography>
+          </Typography>
         </Grid>
-        </Grid>
+      </Grid>
 
       <TextField
         fullWidth
