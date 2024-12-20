@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Servizio per il backend Django
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+
+  # Servizio per il frontend React
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  # Servizio per il database (SQLite per la tua configurazione)
+  db:
+    image: nouchka/sqlite3
+    container_name: db
+    volumes:
+      - ./backend/db.sqlite3:/app/db.sqlite3
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
