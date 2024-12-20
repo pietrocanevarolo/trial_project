@@ -5,63 +5,66 @@ import { Button, Container, Grid, InputAdornment, TextField, Table, TableBody, T
 import SearchIcon from '@mui/icons-material/Search';
 
 const ProductScreen = () => {
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState('');
-  const [sortField, setSortField] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [user] = useState(JSON.parse(localStorage.getItem('user')) || { username: "", name: "", email: "" });
-  const navigate = useNavigate();
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/products/?search=${search}&sort=${sortField}&order=${sortOrder}`);
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      fetchProducts();
-    }, 300); 
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [search, sortField, sortOrder]); // Fetch products on search, sort field, or sort order change
-
-  const handleSelect = async (id, selected) => {
-    try {
-      // Effettua una richiesta PATCH per aggiornare il campo selected
-      const response = await axios.patch(`http://localhost:8000/api/products/`, {
-        id: id,
-        selected: !selected, 
-      });
+    const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState('');
+    const [sortField, setSortField] = useState('name');
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [user] = useState(JSON.parse(localStorage.getItem('user')) || { username: "", name: "", email: "" });
+    const navigate = useNavigate();
   
-      // Aggiorna lo stato dei prodotti con il nuovo valore
-      setProducts((prev) =>
-        prev.map((product) =>
-          product.id === id ? { ...product, selected: response.data.selected } : product
-        )
-      );
-    } catch (error) {
-      console.error('Error updating product selection:', error);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/';
-  };
-
-  const handleSortChange = (field) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle the order if same field is selected
-    } else {
-      setSortField(field);
-      setSortOrder('asc'); // Default to ascending when selecting a new field
-    }
-  };
+    const fetchProducts = async () => {
+      if (search.trim() === '') {
+        setProducts([]); // Se la barra di ricerca è vuota, non mostrare risultati
+        return;
+      }
+  
+      try {
+        const response = await axios.get(`http://localhost:8000/api/products/?search=${search}&sort=${sortField}&order=${sortOrder}`);
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+  
+    useEffect(() => {
+      const delayDebounceFn = setTimeout(() => {
+        fetchProducts();
+      }, 300);
+  
+      return () => clearTimeout(delayDebounceFn);
+    }, [search, sortField, sortOrder]); // Fetch products on search, sort field, or sort order change
+  
+    const handleSelect = async (id, selected) => {
+      try {
+        const response = await axios.patch(`http://localhost:8000/api/products/`, {
+          id: id,
+          selected: !selected,
+        });
+  
+        setProducts((prev) =>
+          prev.map((product) =>
+            product.id === id ? { ...product, selected: response.data.selected } : product
+          )
+        );
+      } catch (error) {
+        console.error('Error updating product selection:', error);
+      }
+    };
+  
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    };
+  
+    const handleSortChange = (field) => {
+      if (field === sortField) {
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle the order if same field is selected
+      } else {
+        setSortField(field);
+        setSortOrder('asc'); // Default to ascending when selecting a new field
+      }
+    };
 
   return (
     <Container maxWidth="lg">

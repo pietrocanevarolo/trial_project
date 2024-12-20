@@ -26,6 +26,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         username = attrs.get('username')
         password = attrs.get('password')
 
+        
         try:
             user = get_user_model().objects.get(username=username)
             if not user.check_password(password):
